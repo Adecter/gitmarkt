@@ -1,0 +1,77 @@
+h1 {
+    margin: 0;
+}
+
+body {
+    padding:0;
+    margin: 0;
+}
+
+@media only screen and (min-width: 800px) {
+    form {
+        width: 500px;
+        margin:0 auto;
+    }
+}
+
+.form {
+    padding: 10px;
+}
+
+.form__input {
+    width: 100%;
+    display:block;
+    font-size: x-large;
+    padding:10px;
+    margin-top:10px;
+    margin-bottom:10px;
+    box-sizing: border-box;
+}
+
+.form__button {
+    display: block;
+    font-size: x-large;
+    background-color: darkslategray;
+    padding:15px;
+    box-sizing: border-box;
+    width:100%;
+    margin-top:15px;
+    border:0px;
+    border-radius: 5px;
+    color:white;
+}
+
+.form__input_select {
+    background-color: white;
+}
+
+.form__input_file::-webkit-file-upload-button  {
+    visibility: hidden;
+}
+
+.form__input_file::before {
+    content: 'Select file';
+    color:gray;
+}
+
+.form__input_file  {
+    border: 1px solid lightgray;
+    color: transparent;
+}
+
+.header {
+    height:75px;
+    background-color:royalblue;
+    overflow: visible;
+    vertical-align: middle;
+    margin-bottom: 25px;
+    color: white;
+    font-family: monospace;
+}
+
+.header__title {
+    position: absolute;
+    left:35px;
+    top:20px;
+}
+
