@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="style.css" />
+</head>
+
+<body>
+
+    <div class="header">
+        <h1 class="header__title">My awesome app</h1>
+    </div>
+
+    <form class="form" action="/register" method="post">
+        <input type="text" placeholder="Service name" class="form__input" name="name">
+        <select class="form__input form__input_select" name="type">
+            <option>Vehicles</option>
+            <option>Service</option>
+            <option>Food</option>
+        </select>
+        <input type="file" class="form__input form__input_file" name="logo">
+        <input type="text" placeholder="Keywords" class="form__input" name="keywords">
+        <button class="form__button" type="submit">Register</button>
+    </form>
+</body>
+
+</html>
