@@ -8,7 +8,7 @@ export default class ServiceUseCase {
 
     async createService(serviceDto) {
         await this.serviceSchema.validateAsync(serviceDto)
-        return await this.serviceRepository.persistService(serviceDto)
+        await this.serviceRepository.persistService(serviceDto)
     }
 
     async getAllServices(){

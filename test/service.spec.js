@@ -1,10 +1,10 @@
 import { expect } from 'chai'
 const chai = require('chai')
 import chaiAsPromised from 'chai-as-promised'
-import ServiceUseCase from '../domain/use-cases/service'
-import { serviceSchema } from '../domain/models/service-schema'
+import ServiceUseCase from '../domain/use-cases/service.js'
+import serviceSchema  from '../domain/models/service-schema.js'
 import sinon from 'sinon'
-import ServiceRepository from '../infrastructure/repositories/service-repository'
+import ServiceRepository from '../infrastructure/repositories/service-repository.js'
 chai.use(chaiAsPromised)
 
 afterEach(() => {
@@ -23,12 +23,12 @@ describe('Service use case spec.', async () => {
         const dto = {
             name: 'asddsa',
             category: 123,
-            logo: 'some binary string',
+            // logo: 'some binary string',
             keywords: 'cars detailing'
         }
 
 
-        const serviceUseCase = new ServiceUseCase(new ServiceRepository(), serviceSchema)
+        const serviceUseCase = new ServiceUseCase(new ServiceRepository(), serviceSchema.serviceSchema)
 
         //Act, Assert
         const a = serviceUseCase.createService(dto);

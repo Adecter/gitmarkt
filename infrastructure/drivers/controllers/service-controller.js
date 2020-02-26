@@ -9,7 +9,7 @@ export default class ServiceController {
 
 
     async register(req, res){
-        const result = this.serviceUseCase.createService(req)
+        const result = await this.serviceUseCase.createService(req.body)
         res.send(result)
     }
 

@@ -1,4 +1,4 @@
-import { Client } from 'pg'
+import * as pg from 'pg'
 
 export default class ServiceRepository {
 
@@ -6,8 +6,7 @@ export default class ServiceRepository {
 
 
     async persistService(dto) {
-
-        const client = new Client({
+        const client = new pg.default.Client({
             user: 'postgres',
             host: 'localhost',
             database: 'ecom',
@@ -17,7 +16,7 @@ export default class ServiceRepository {
 
         await client.connect()
 
-        const text = 'INSERT INTO Service (name, category, keywords) VALUES($1, $2, $3)'
+        const text = 'INSERT INTO \"Service\" (\"name\", \"category\", \"keywords\") VALUES($1, $2, $3)'
 
         return await client.query(text, [dto.name, dto.category, dto.keywords])
 
