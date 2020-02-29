@@ -5,7 +5,8 @@
   "main": "./infrastructure/server.js",
   "scripts": {
     "dev": "nodemon server.js",
-    "test": "mocha --require babel-polyfill --require babel-register"
+    "test": "mocha --require babel-polyfill --require babel-register",
+    "test_aspheric": "mocha --require babel-polyfill --require babel-register \"./public/**/*spec.js\""
   },
   "repository": {
     "type": "git",
@@ -35,6 +36,7 @@
     "babel-register": "^6.26.0",
     "chai": "^4.2.0",
     "chai-as-promised": "^7.1.1",
+    "jsdom": "^16.2.0",
     "mocha": "^7.0.1",
     "nodemon": "^2.0.2",
     "sinon": "^9.0.0"
