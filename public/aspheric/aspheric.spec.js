@@ -4,7 +4,7 @@ import { JSDOM } from 'jsdom';
 const jsdom = require("jsdom");
 
 
-describe('Renderer can render html', () => {
+describe('Testing selectors.', () => {
 
 
     it('getLinksWithoutListeners_1linksWithOnclick_returns1elemt', ()=>{

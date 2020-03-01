@@ -1,6 +1,6 @@
 
 
-class Renderer {
+export default class Renderer {
 
 
     constructor(processors, viewport){
@@ -10,12 +10,12 @@ class Renderer {
 
 
 
-    insertHtml(content, elem = this.viewport){
-        elem.insertHtml = content
-
-        this.processors.array.forEach(process => {
-            process(elem)
-        });
+    async insertHtml(content){
+        this.viewport.innerHTML  = content
+    
+        for(const processor of this.processors){
+            await processor(this)
+        }
     }
 }
 

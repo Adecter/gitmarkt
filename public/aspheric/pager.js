@@ -1,31 +1,26 @@
-function loadPages(pages) {
+import { getLinksWithoutListeners } from "./selectors.js"
 
 
 
-}
-
-
-export async function processPages() {
-    const hrefToHtml = {}
-    const defaultViewport = document.body.querySelector('#viewport')
-
-    const links = Array.from(document.body.querySelectorAll('a'))
+export async function processPages(renderer) {
+    
+    const links = getLinksWithoutListeners(document.body)
     const hrefs = links.map(x => x.href)
 
-    hrefs.forEach(async x => { 
-        const content = (await fetch(x)).text() 
-        hrefToHtml[x] = await content
-        
-    })
-    
-    //await Promise.all(pagesPromises)
-    // debugger
-    links.forEach(x => {
-        x.addEventListener('click', (elem) => {
-            event.preventDefault()
-            // debugger
-            defaultViewport.innerHTML = hrefToHtml[elem.target.href]
-        })
-    });
+    const hrefToHtml = {}
+
+    for(const href of hrefs){
+        const content = (await fetch(href)).text() 
+        hrefToHtml[href] = await content
+    }
+
+    for(const link of links){
+        link.onclick = async (e) => {
+            e.preventDefault()
+            await renderer.insertHtml(hrefToHtml[e.target.href])
+        }
+    }
 
 }
+
+
