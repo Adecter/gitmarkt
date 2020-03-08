@@ -1,7 +1,7 @@
 import ServiceController from './controllers/service-controller.js'
 import ServiceUseCase from '../../domain/use-cases/service.js'
 import ServiceRepository from '../repositories/service-repository.js'
-
+import multer from 'multer'
 import express from 'express'
 import serviceSchema from '../../domain/models/service-schema.js'
 
@@ -14,8 +14,9 @@ const serviceController = new ServiceController(
     ))
 
 
-router.post('/register', (req, res, next) => {
-    serviceController.register(req, res, next).catch(err=>res.send(err))
+router.post('/register', multer().none(), (req, res, next) => {
+    serviceController.register(req, res, next)
+    .catch(err => res.status(400).json(err))
 })
 
 

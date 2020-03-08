@@ -1,4 +1,4 @@
-import { getLinksWithoutListeners } from './selectors'
+import { getLinksWithoutListeners, getFormsWithoutListeners } from './selectors'
 import { expect } from 'chai'
 import { JSDOM } from 'jsdom';
 const jsdom = require("jsdom");
@@ -40,5 +40,21 @@ describe('Testing selectors.', () => {
 
         //Assert
         expect(notProcessedLinks.length).to.equal(2)
+    })
+
+    it('getFormsWithoutListeners_1linksWithOnclick_returns1elemt', ()=>{
+        //Arrange
+        const document = new JSDOM().window.document
+
+        const form = document.createElement('form')
+        const button = document.createElement('button')
+        button.setAttribute('type','submit')
+        form.appendChild(button)
+
+        //Act
+        const notProcessedButton = getFormsWithoutListeners(form)
+
+        //Assert
+        expect(notProcessedButton.length).to.equal(1)
     })
 })
