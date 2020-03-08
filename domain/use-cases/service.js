@@ -14,4 +14,8 @@ export default class ServiceUseCase {
     async getAllServices(){
         return await this.serviceRepository.getAll()
     }
+
+    async getCategories(){
+        return await this.serviceRepository.getCategories()
+    }
 }

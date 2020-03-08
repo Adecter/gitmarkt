@@ -13,4 +13,9 @@ export default class ServiceController {
         res.send(result)
     }
 
+    async getCategories(res){
+        const result = await this.serviceUseCase.getCategories()
+        res.send(result)
+    }
+
 }
