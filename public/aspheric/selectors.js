@@ -3,8 +3,13 @@ export function getLinksWithoutListeners(elem){
 }
 
 export function getFormsWithoutListeners(elem){
-    
     return Array.from(
         elem.querySelectorAll('form button[type="submit"')).filter(x=>!!!x.onclick)
         
 }
+
+export function getDynamicDropdowns(elem){
+    return Array.from(
+        elem.querySelectorAll('select[ph-data]'))
+}
+

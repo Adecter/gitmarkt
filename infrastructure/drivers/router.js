@@ -15,7 +15,11 @@ const serviceController = new ServiceController(
 
 
 router.post('/register', multer().none(), (req, res, next) => {
-    serviceController.register(req, res, next)
+    serviceController.register(req, res)
+    .catch(err => res.status(400).json(err))
+})
+router.get('/categories', (req, res, next) => {
+    serviceController.getCategories(res)
     .catch(err => res.status(400).json(err))
 })
 
