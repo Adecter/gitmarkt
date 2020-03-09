@@ -12,16 +12,22 @@ export default class ServiceRepository {
         })
     }
 
+    async createConnection(){
+        await this.client.connect()
+    }
+
+    static async create(){
+        const o = new ServiceRepository()
+        await o.createConnection()
+        return o;
+    }
 
     async persistService(dto) {
-        //TODO: Do i need to close connection?
-        await this.client.connect()
         const text = 'INSERT INTO \"Service\" (\"name\", \"category\", \"keywords\") VALUES($1, $2, $3)'
         return await this.client.query(text, [dto.name, dto.category, dto.keywords])
     }
 
     async getCategories(){
-        await this.client.connect()
         return (await this.client.query('SELECT * FROM \"Category\"')).rows
     }
 }
