@@ -1,34 +1,24 @@
 import { getDynamicDropdowns } from "./selectors.js";
 
-export async function processTemplates(renderer){
+export async function trackNewDynamicElements(renderer) {
 
 
     //Process dropdowns
     const dropDowns = getDynamicDropdowns(document.body)
-    
-    for(const dropDown of dropDowns){
+    const allDynamicElements = []
 
-        
-        const dataCallbackName = dropDown.getAttribute('ph-data')
+    allDynamicElements.concat(dropDowns)
 
-        if(renderer.existSubscriberOn(dataCallbackName)){
+    for (const elem of allDynamicElements) {
+
+        const id = elem.id
+
+        if (id !== '') {
             continue;
         }
 
-        renderer.subscribeOn(dataCallbackName, (options)=>{
-
-            //TODO: removeChild is faster
-            dropDown.innerHTML = ''
-
-            for(const option of options){
-                const optElem = document.createElement('option')
-                optElem.setAttribute('value', option.value)
-                optElem.innerText = option.text
-                dropDown.appendChild(optElem)
-            }
-        })
+        renderer.addDynamicElem(elem)
     }
-
-
-
 }
+
+

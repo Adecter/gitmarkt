@@ -4,24 +4,34 @@ import ServiceRepository from '../repositories/service-repository.js'
 import multer from 'multer'
 import express from 'express'
 import serviceSchema from '../../domain/models/service-schema.js'
+import categorySchema from '../../domain/models/category-schema.js'
 
 const router = express.Router()
+
+const categories = '/categories'
+const register = '/services'
 
 async function createServiceController() {
     return new ServiceController(
         new ServiceUseCase(
             await ServiceRepository.create(),
-            serviceSchema.serviceSchema
+            serviceSchema.serviceSchema,
+            categorySchema.categorySchema
         ));
 }
 
 
-router.post('/register', multer().none(), async (req, res, next) => {
+router.post(register, multer().none(), async (req, res, next) => {
     (await createServiceController()).register(req, res)
         .catch(err => res.status(400).json(err))
 })
-router.get('/categories', async (req, res, next) => {
+
+router.get(categories, async (req, res, next) => {
     (await createServiceController()).getCategories(res)
+        .catch(err => res.status(400).json(err))
+})
+router.post(categories, multer().none(), async (req, res, next) => {
+    (await createServiceController()).addCategory(res)
         .catch(err => res.status(400).json(err))
 })
 
