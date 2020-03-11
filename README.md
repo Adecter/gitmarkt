@@ -12,3 +12,10 @@ Install following dependencies on your local machine
 * run `npm i`
 * run `npm run dev`
 * open http://localhost:3000 in browser
+## Database management
+* open http://localhost:8081
+* enter credentials:
+  * System: PostgreSQL
+  * Server: db
+  * Username: postgres
+  * Password: <see .env file> 
