@@ -7,6 +7,11 @@ body {
     margin: 0;
 }
 
+a {
+    color: inherit; /* blue colors for links too */
+    text-decoration: inherit; /* no underline */
+}
+
 @media only screen and (min-width: 800px) {
     form {
         width: 500px;
@@ -64,7 +69,6 @@ body {
     background-color:royalblue;
     overflow: visible;
     vertical-align: middle;
-    margin-bottom: 25px;
     color: white;
     font-family: monospace;
 }
@@ -75,3 +79,22 @@ body {
     top:20px;
 }
 
+nav {
+    float: right;
+}
+
+.navigation {
+    padding: 0;
+    padding-right: 10px;
+}
+
+.navigation__item {
+    display: inline-block;
+    text-align: left;
+}
+
+.navigation__item a {
+    display: inline-block;
+    padding: 20px 10px;
+    width: auto;
+}
