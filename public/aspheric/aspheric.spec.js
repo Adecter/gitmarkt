@@ -1,7 +1,7 @@
 import { expect } from 'chai'
 import { JSDOM } from 'jsdom';
-import { DataConfig, DataOrigin } from './data';
-import { renderDropdown } from './templator';
+import { DataConfig, DataOrigin, DataModes } from './data.js';
+import { renderDropdown } from './templator.js';
 
 
 describe('Renderer tests.', () => {
@@ -18,12 +18,12 @@ describe('Renderer tests.', () => {
         { value: 'some-value2', text: 'some-text2' }]
 
         //Act
-        var newSelect = renderDropdown(select, data)
+        renderDropdown(select, data)
 
         //Assert
-        expect(newSelect).to.not.be.undefined
-        expect(Array.from(newSelect.options).length).to.equal(2)
-        expect(newSelect.querySelector('option[value="some-value"]'))
+        expect(select).to.not.be.undefined
+        expect(Array.from(select.options).length).to.equal(2)
+        expect(select.querySelector('option[value="some-value"]'))
     })
 })
 
@@ -43,11 +43,13 @@ describe('DataConfig tests', () => {
         const config = {
             'categories': {
                 type: DataOrigin.Http,
-                endpoint: '/categories'
+                endpoint: '/categories',
+                mode: DataModes.ReadWrite
             },
             'services': {
                 type: DataOrigin.Http,
-                endpoint: '/services'
+                endpoint: '/services',
+                mode: DataModes.ReadWrite
             }
         }
         const fetcherMock = async (endpoint, post) => {

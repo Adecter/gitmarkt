@@ -1,4 +1,3 @@
-import { getDynamicDropdowns } from "./selectors.js";
 
 export async function setupDropdowns(renderer, pageName) {
 
