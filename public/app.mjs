@@ -1,5 +1,5 @@
 import Renderer from './aspheric/renderer.js'
-import { DataConfig, DataOrigin } from './aspheric/data.js'
+import { DataConfig, DataOrigin, DataModes } from './aspheric/data.js'
 import { Pager } from './aspheric/pager.js'
 
 //TODO: investigate this hack
@@ -9,12 +9,14 @@ import { Pager } from './aspheric/pager.js'
         new DataConfig({
             'categories':{
                 type: DataOrigin.Http,
-                endpoint: '/categories'
+                endpoint: '/categories',
+                mode: DataModes.ReadWrite
             },
-            // 'services':{
-            //     type: DataOrigin.Http,
-            //     endpoint:'/services'
-            // }
+            'services':{
+                type: DataOrigin.Http,
+                endpoint:'/services',
+                mode: DataModes.Write
+            }
         }),
         new Pager(['register.html', 'search.html', 'category.html', 'menu.html']),
         document)

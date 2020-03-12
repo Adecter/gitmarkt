@@ -1,5 +1,5 @@
 import { setupNavigationOn } from "./pager.js"
-import { trackFormsWithoutListeners } from "./dal.js"
+import { setupFormsOn } from "./dal.js"
 import { trackNewDynamicElements, insertComponents } from "./templator.js"
 
 
@@ -46,6 +46,8 @@ export default class Renderer {
     async render(pageName, screen) {
         insertComponents(this, pageName)
         setupNavigationOn(this, pageName)
+        setupFormsOn(this, pageName)
+        
         this.loadAliveObjects(pageName,screen)
         this.pager.trackPage(pageName)
     }

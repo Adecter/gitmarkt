@@ -18,13 +18,17 @@ class HttpData {
             }
         )
         if (response.ok) {
-            const last = await this.get()
+            if (config.mode === DataModes.Read ||
+                config.mode === DataModes.ReadWrite) {
+                const last = await this.get()
 
-            for (const callback of this.config.callbacks) {
-                callback(last)
+                for (const callback of this.config.callbacks) {
+                    callback(last)
+                }
+
+                this.config.last = last
             }
-
-            this.config.last = last
+            
             return response
         }
 
@@ -79,7 +83,13 @@ export class DataConfig {
 
     async init() {
         for (const datakey in this.config) {
-            this.config[datakey].last = await this.get(datakey)
+            const config = this.config[datakey]
+
+            if (config.mode === DataModes.Read ||
+                config.mode === DataModes.ReadWrite) {
+                this.config[datakey].last = await this.get(datakey)
+            }
+
         }
     }
 
@@ -99,4 +109,9 @@ export class DataConfig {
 
 export const DataOrigin = {
     Http: 'http'
+}
+export const DataModes = {
+    Read: 'read',
+    Write: 'Write',
+    ReadWrite: 'ReadWrite'
 }

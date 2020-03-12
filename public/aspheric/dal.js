@@ -1,26 +1,33 @@
-import { getDynamicFormsWithoutListeners } from "./selectors.js";
 
-export function trackFormsWithoutListeners(renderer) {
 
-    const forms = getDynamicFormsWithoutListeners(document.body).map(x => {
-        return {
-            button: x,
-            method: x.form.method,
-            action: x.form.action,
-            datakey: x.form.getAttribute('ph-data')
-        }
-    })
+export function setupFormsOn(renderer, pageName) {
 
-    for (const form of forms) {
-        form.button.onclick = async (e) => {
-            e.preventDefault()
-            
-            await renderer.dataConfig.push(
-                form.datakey, new FormData(e.target.form)
+    if (renderer.pager.isPageTracked(pageName)) {
+        return
+    }
+
+    debugger
+
+    const pageContent = renderer.pager.get(pageName)
+    const rawPage = renderer.document.createElement('div')
+    rawPage.innerHTML = pageContent
+
+    const submits = Array.from(rawPage.querySelectorAll('form[ph-data] button[type="submit"]'))
+
+    
+    for (const submit of submits) {
+        renderer.addAliveElem(submit)
+        const datakey = submit.form.getAttribute('ph-data')
+
+        submit.onclick = async (e) => {
+            debugger
+            e.preventDefault()   
+            await renderer.dataconfig.push(
+                datakey, new FormData(e.target.form)
             )
         }
     }
 
-
+    renderer.pager.savePage(pageName, rawPage.innerHTML)
 
 }
