@@ -6,8 +6,6 @@ export function setupFormsOn(renderer, pageName) {
         return
     }
 
-    debugger
-
     const pageContent = renderer.pager.get(pageName)
     const rawPage = renderer.document.createElement('div')
     rawPage.innerHTML = pageContent
@@ -20,7 +18,7 @@ export function setupFormsOn(renderer, pageName) {
         const datakey = submit.form.getAttribute('ph-data')
 
         submit.onclick = async (e) => {
-            debugger
+        
             e.preventDefault()   
             await renderer.dataconfig.push(
                 datakey, new FormData(e.target.form)

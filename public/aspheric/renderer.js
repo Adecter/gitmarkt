@@ -1,6 +1,6 @@
 import { setupNavigationOn } from "./pager.js"
 import { setupFormsOn } from "./dal.js"
-import { trackNewDynamicElements, insertComponents } from "./templator.js"
+import { insertComponents, setupDropdowns } from "./templator.js"
 
 
 export default class Renderer {
@@ -10,13 +10,6 @@ export default class Renderer {
         this.dataconfig = dataconfig
         this.pager = pager
         this.document = document
-
-        const processors = []
-        processors.push(setupNavigationOn)
-        // processors.push(processForms)
-        processors.push(trackNewDynamicElements)
-
-        this.processors = processors
         
         this.markedPages = {}
         this.aliveObjects = {}
@@ -47,6 +40,7 @@ export default class Renderer {
         insertComponents(this, pageName)
         setupNavigationOn(this, pageName)
         setupFormsOn(this, pageName)
+        setupDropdowns(this, pageName)
         
         this.loadAliveObjects(pageName,screen)
         this.pager.trackPage(pageName)
@@ -88,19 +82,6 @@ export default class Renderer {
             var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
             return v.toString(16);
         });
-    }
-
-
-    static renderDropdown(dropdown, options) {
-
-        for (const option of options) {
-            const optElem = document.createElement('option')
-            optElem.setAttribute('value', option.value)
-            optElem.innerText = option.text
-            dropdown.appendChild(optElem)
-        }
-
-        return dropdown
     }
 
     log(){

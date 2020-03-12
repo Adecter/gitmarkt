@@ -31,7 +31,7 @@ router.get(categories, async (req, res, next) => {
         .catch(err => res.status(400).json(err))
 })
 router.post(categories, multer().none(), async (req, res, next) => {
-    (await createServiceController()).addCategory(res)
+    (await createServiceController()).addCategory(req,res)
         .catch(err => res.status(400).json(err))
 })
 

@@ -18,7 +18,7 @@ export default class ServiceController {
         res.send(result)
     }
 
-    async addCategory(res){
+    async addCategory(req,res){
         const result = await this.serviceUseCase.createCategory(req.body)
         res.send(result)
     }

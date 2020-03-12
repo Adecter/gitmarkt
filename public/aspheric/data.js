@@ -18,8 +18,8 @@ class HttpData {
             }
         )
         if (response.ok) {
-            if (config.mode === DataModes.Read ||
-                config.mode === DataModes.ReadWrite) {
+            if (this.config.mode === DataModes.Read ||
+                this.config.mode === DataModes.ReadWrite) {
                 const last = await this.get()
 
                 for (const callback of this.config.callbacks) {
