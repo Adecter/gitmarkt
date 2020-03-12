@@ -1,35 +1,69 @@
-import { processPages } from "./pager.js"
-import { processForms } from "./dal.js"
-import { trackNewDynamicElements } from "./templator.js"
+import { setupNavigationOn } from "./pager.js"
+import { trackFormsWithoutListeners } from "./dal.js"
+import { trackNewDynamicElements, insertComponents } from "./templator.js"
 
 
 export default class Renderer {
 
-    constructor(viewport, dataconfig) {
+    constructor(dataconfig, pager, document) {
+
+        this.dataconfig = dataconfig
+        this.pager = pager
+        this.document = document
+
         const processors = []
-        processors.push(processPages)
-        processors.push(processForms)
+        processors.push(setupNavigationOn)
+        // processors.push(processForms)
         processors.push(trackNewDynamicElements)
 
         this.processors = processors
-        this.viewport = viewport
-        this.dataconfig = dataconfig
+        
+        this.markedPages = {}
         this.aliveObjects = {}
     }
 
-    addDynamicElem(elem) {
-        
+    async bootstrap(){
+        await this.pager.pullPages()
+        await this.dataconfig.init()
+
+        const mainDiv = this.document.createElement('div')
+        this.document.body.appendChild(mainDiv)
+
+        this.render('container.html', mainDiv)
+    }
+
+    addAliveElem(elem) {
+        const id = Renderer.uuidv4()
+        elem.setAttribute('ph-id',id)
+        this.aliveObjects[id] = elem
     }
 
     async insertHtml(content) {
         this.viewport.innerHTML = content
-
         await this.refresh()
     }
 
-    async refresh() {
-        for (const processor of this.processors) {
-            await processor(this)
+    async render(pageName, screen) {
+        insertComponents(this, pageName)
+        setupNavigationOn(this, pageName)
+        this.loadAliveObjects(pageName,screen)
+        this.pager.trackPage(pageName)
+    }
+
+    loadAliveObjects(pageName,screen){
+        if(!screen){
+            
+            screen = this.document.querySelector('[ph-screen]')
+        }
+
+        screen.innerHTML = this.pager.get(pageName)
+
+        const objects = Array.from(screen.querySelectorAll('[ph-id]'))
+
+        for(const obj of objects){
+            const id = obj.getAttribute('ph-id')
+            const aliveElem = this.aliveObjects[id]
+            obj.parentNode.replaceChild(aliveElem, obj);
         }
     }
 
@@ -65,6 +99,11 @@ export default class Renderer {
         }
 
         return dropdown
+    }
+
+    log(){
+        console.log(this.aliveObjects)
+        console.log(this.markedPages)
     }
 }
 

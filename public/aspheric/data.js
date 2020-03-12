@@ -2,7 +2,7 @@ class HttpData {
 
     constructor(config, fetcher) {
         this.config = config
-        this.fetcher = fetcher
+        this.fetcher = !fetcher ? (endpoint, config) => window.fetch(endpoint, config) : fetcher
     }
 
     async get() {
@@ -34,7 +34,7 @@ class HttpData {
 
 export class DataConfig {
 
-    constructor(config, fetcher = fetch) {
+    constructor(config, fetcher) {
         this.config = config
         this.fetcher = fetcher
     }
@@ -78,7 +78,7 @@ export class DataConfig {
     }
 
     async init() {
-        for(const datakey in this.config){
+        for (const datakey in this.config) {
             this.config[datakey].last = await this.get(datakey)
         }
     }

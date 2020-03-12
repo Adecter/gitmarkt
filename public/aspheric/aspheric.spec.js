@@ -2,7 +2,6 @@ import { getLinksWithoutListeners, getFormsWithoutListeners } from './selectors'
 import { expect } from 'chai'
 import { JSDOM } from 'jsdom';
 import Renderer from './renderer.js';
-import { renderDropdown } from './templator';
 import { DataConfig, DataOrigin } from './data';
 
 describe('Selectors tests.', () => {

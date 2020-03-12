@@ -21,4 +21,30 @@ export async function trackNewDynamicElements(renderer) {
     }
 }
 
+export function insertComponents(renderer, pageName) {
 
+    if (renderer.pager.isPageTracked(pageName)) {
+        return
+    }
+
+    const pageContent = renderer.pager.get(pageName)
+    const rawPage = renderer.document.createElement('div')
+    rawPage.innerHTML = pageContent
+
+    const placeholders = Array.from(rawPage.querySelectorAll('[ph-put]'))
+    
+    for (const placeholder of placeholders) {
+        const content = renderer.pager.get(placeholder.getAttribute('ph-put'))
+        placeholder.innerHTML = content
+        unWrapElement(placeholder)
+    }
+
+    renderer.pager.savePage(pageName, rawPage.innerHTML)
+}
+
+
+function unWrapElement(el) {
+    var parent = el.parentNode;
+    while (el.firstChild) parent.insertBefore(el.firstChild, el);
+    parent.removeChild(el);
+}

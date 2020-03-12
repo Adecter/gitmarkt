@@ -1,21 +1,23 @@
-import { getFormsWithoutListeners } from "./selectors.js";
+import { getDynamicFormsWithoutListeners } from "./selectors.js";
 
-export async function processForms(renderer) {
+export function trackFormsWithoutListeners(renderer) {
 
-    const forms = getFormsWithoutListeners(document.body).map(x => {
+    const forms = getDynamicFormsWithoutListeners(document.body).map(x => {
         return {
             button: x,
             method: x.form.method,
             action: x.form.action,
-            dataName: x.form.getAttribute('ph-data')
+            datakey: x.form.getAttribute('ph-data')
         }
     })
 
     for (const form of forms) {
         form.button.onclick = async (e) => {
             e.preventDefault()
-            const formData = new FormData(e.target.form)
-          
+            
+            await renderer.dataConfig.push(
+                form.datakey, new FormData(e.target.form)
+            )
         }
     }
 
