@@ -1,28 +1,31 @@
-import { getFormsWithoutListeners } from "./selectors.js";
 
-export async function processForms() {
 
-    const forms = getFormsWithoutListeners(document.body).map(x => {
-        return { button: x, method: x.form.method, action: x.form.action }
-    })
+export function setupFormsOn(renderer, pageName) {
 
-    for (const form of forms) {
-        form.button.onclick = async (e) => {
-            e.preventDefault()
-            const formData = new FormData(e.target.form)
-            const response = await fetch(form.action,
-                {
-                    method: 'POST',
-                    body: formData 
-                    //Default is multipart/formdata
-                }
+    if (renderer.pager.isPageTracked(pageName)) {
+        return
+    }
+
+    const pageContent = renderer.pager.get(pageName)
+    const rawPage = renderer.document.createElement('div')
+    rawPage.innerHTML = pageContent
+
+    const submits = Array.from(rawPage.querySelectorAll('form[ph-data] button[type="submit"]'))
+
+    
+    for (const submit of submits) {
+        renderer.addAliveElem(submit)
+        const datakey = submit.form.getAttribute('ph-data')
+
+        submit.onclick = async (e) => {
+        
+            e.preventDefault()   
+            await renderer.dataconfig.push(
+                datakey, new FormData(e.target.form)
             )
-            if(response.ok){
-                alert('Service added')
-            }
         }
     }
 
-
+    renderer.pager.savePage(pageName, rawPage.innerHTML)
 
 }

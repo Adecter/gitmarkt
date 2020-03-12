@@ -27,6 +27,11 @@ export default class ServiceRepository {
         return await this.client.query(text, [dto.name, dto.category, dto.keywords])
     }
 
+    async persistCategory(dto) {
+        const text = 'INSERT INTO \"Category\" (\"Name\", \"ParentId\") VALUES($1, $2)'
+        return await this.client.query(text, [dto.name, dto.category])
+    }
+
     async getCategories(){
         return (await this.client.query('SELECT * FROM \"Category\"')).rows
     }

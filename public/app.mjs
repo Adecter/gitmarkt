@@ -1,17 +1,27 @@
 import Renderer from './aspheric/renderer.js'
-import { fetchCategories } from './repos.js'
+import { DataConfig, DataOrigin, DataModes } from './aspheric/data.js'
+import { Pager } from './aspheric/pager.js'
 
+//TODO: investigate this hack
 (async function run() {
-
+    
     const renderer = new Renderer(
-        document.body.querySelector('#viewport')
-    )
+        new DataConfig({
+            'categories':{
+                type: DataOrigin.Http,
+                endpoint: '/categories',
+                mode: DataModes.ReadWrite
+            },
+            'services':{
+                type: DataOrigin.Http,
+                endpoint:'/services',
+                mode: DataModes.Write
+            }
+        }),
+        new Pager(['register.html', 'search.html', 'category.html', 'menu.html']),
+        document)
 
-    await renderer.init()
-
-    document.body.querySelectorAll('a')[1].click()
-
-    await fetchCategories(renderer)
+    renderer.bootstrap()
 })()
 
 
