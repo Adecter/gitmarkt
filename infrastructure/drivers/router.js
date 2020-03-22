@@ -10,6 +10,7 @@ const router = express.Router()
 
 const categories = '/categories'
 const register = '/services'
+const listServices = '/list-services' //route for EJS template
 
 async function createServiceController() {
     return new ServiceController(
@@ -33,6 +34,9 @@ router.get(categories, async (req, res, next) => {
 router.post(categories, multer().none(), async (req, res, next) => {
     (await createServiceController()).addCategory(req,res)
         .catch(err => res.status(400).json(err))
+})
+router.get(listServices, multer().none(), (req, res, next) => {
+    res.render('pages/index');
 })
 
 
