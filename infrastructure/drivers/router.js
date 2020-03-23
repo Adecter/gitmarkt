@@ -35,8 +35,9 @@ router.post(categories, multer().none(), async (req, res, next) => {
     (await createServiceController()).addCategory(req,res)
         .catch(err => res.status(400).json(err))
 })
-router.get(listServices, multer().none(), (req, res, next) => {
-    res.render('pages/index');
+router.get(listServices, multer().none(), async (req, res, next) => {
+    (await createServiceController()).renderServices(res)
+        .catch(err => res.status(400).json(err))
 })
 
 

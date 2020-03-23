@@ -35,4 +35,8 @@ export default class ServiceRepository {
     async getCategories(){
         return (await this.client.query('SELECT * FROM \"Category\"')).rows
     }
+
+    async getServices(){
+        return (await this.client.query('SELECT * FROM \"Service\"')).rows
+    }
 }

@@ -12,8 +12,8 @@ export default class ServiceUseCase {
         await this.serviceRepository.persistService(serviceDto)
     }
 
-    async getAllServices(){
-        return await this.serviceRepository.getAll()
+    async getServices(){
+        return await this.serviceRepository.getServices()
     }
 
     async getCategories(){
