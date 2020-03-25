@@ -23,4 +23,9 @@ export default class ServiceController {
         res.send(result)
     }
 
+    async renderServices(res){
+        const result = await this.serviceUseCase.getServices()
+        res.render('pages/index',{services:result})
+    }
+
 }
